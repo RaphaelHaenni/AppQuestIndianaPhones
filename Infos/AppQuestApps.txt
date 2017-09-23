@@ -1,0 +1,13 @@
+1. Magnet				23.September  (Nicht abgeben)
+2. Rotfilter				14.Oktober
+3. QR-Code				04.November
+4. Schatzkarte GPS (Openstreetmap)	25.November
+5. Mal-App Canvas			16.Dezember (Nicht abgeben)
+
+appquest.ch/2017
+Passwort: 2017
+
+Wir entwickeln für: Android Version 4.1 (Jelly Bean)
+
+minSDK: 4.1
+targetSDK: 7.0
