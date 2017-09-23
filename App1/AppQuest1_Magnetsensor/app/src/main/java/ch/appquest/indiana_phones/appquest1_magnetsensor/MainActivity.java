@@ -144,7 +144,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
 
         JSONObject json = new JSONObject();
-        json.put("task", "Metalldetektor IndianaPhones");
+        json.put("task", "Metalldetektor");
         json.put("solution", qrCode);
 
         // Achtung, je nach App wird etwas anderes eingetragen
