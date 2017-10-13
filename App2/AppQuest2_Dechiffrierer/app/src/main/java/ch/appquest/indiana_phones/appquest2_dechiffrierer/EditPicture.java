@@ -42,13 +42,10 @@ public class EditPicture extends AppCompatActivity {
 
                     public void onClick(View arg0) {
 
-                        // in onCreate or any event where your want the user to
-                        // select a file
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent,
-                                "Select Picture"), LOAD_IMAGE_RESULTS);
+                        Intent mediaChooser = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        //comma-separated MIME types
+                        mediaChooser.setType("image/*");
+                        startActivityForResult(mediaChooser, LOAD_IMAGE_RESULTS);
                     }
                 });
     }
