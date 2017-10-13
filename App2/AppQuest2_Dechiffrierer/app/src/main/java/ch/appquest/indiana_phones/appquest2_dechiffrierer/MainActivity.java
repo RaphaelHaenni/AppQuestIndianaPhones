@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button tpicture;
     private Button epicture;
+    public static int countReset = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
