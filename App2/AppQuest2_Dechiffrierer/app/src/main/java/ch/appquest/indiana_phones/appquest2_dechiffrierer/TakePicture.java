@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -34,20 +38,7 @@ public class TakePicture extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
 
-        try
-        {
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/appquest_images";
-            File directory = new File(path);
-            File[] files = directory.listFiles();
-            for (int i = 0; i < files.length; i++)
-            {
-                scanMedia(files[i].getAbsolutePath());
-            }
-        }
-        catch (Exception x)
-        {
-            Log.d("Exceptions", x.getMessage());
-        }
+        scanEverything();
 
         MainActivity.countReset++;
         if (MainActivity.countReset >= 2)
@@ -110,7 +101,11 @@ public class TakePicture extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             try {
                 mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
-                scanMedia(Uri.parse(mCurrentPhotoPath).getPath());
+                Bitmap newOne = rotating(Uri.parse(mCurrentPhotoPath).getPath());
+                File file = new File(Uri.parse(mCurrentPhotoPath).getPath());
+                file.delete();
+                SaveImage(newOne);
+                scanEverything();
                 kill_activity();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -122,5 +117,71 @@ public class TakePicture extends AppCompatActivity {
     {
         MainActivity.countReset = 0;
         finish();
+    }
+
+    private void SaveImage(Bitmap finalBitmap) {
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(); //Environment.getDataDirectory().getAbsolutePath();
+        File myDir = new File(root + "/appquest_images");
+        myDir.mkdirs();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fname = "Image-"+ timeStamp +".PNG";
+        File file = new File (myDir, fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Bitmap rotating(String file)
+    {
+        try {
+            BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(file, bounds);
+
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            Bitmap bm = BitmapFactory.decodeFile(file, opts);
+            ExifInterface exif = new ExifInterface(file);
+            String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+            int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+
+            int rotationAngle = 0;
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+
+            Matrix matrix = new Matrix();
+            matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+            return rotatedBitmap;
+        }
+        catch (Exception x)
+        {
+            Log.d("Exceptions", x.getMessage());
+        }
+        return null;
+    }
+
+    private void scanEverything()
+    {
+        try
+        {
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/appquest_images";
+            File directory = new File(path);
+            File[] files = directory.listFiles();
+            for (int i = 0; i < files.length; i++)
+            {
+                scanMedia(files[i].getAbsolutePath());
+            }
+        }
+        catch (Exception x)
+        {
+            Log.d("Exceptions", x.getMessage());
+        }
     }
 }
