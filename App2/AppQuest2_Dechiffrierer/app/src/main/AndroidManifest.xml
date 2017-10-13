@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".TakePicture" />
-        <activity android:name=".EditPicture"></activity>
+        <activity android:name=".EditPicture"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
     </application>
 
     <uses-feature android:name="android.hardware.camera"
