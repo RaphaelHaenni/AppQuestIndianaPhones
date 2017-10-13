@@ -50,6 +50,8 @@ public class EditPicture extends AppCompatActivity {
                 });
     }
 
+
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == LOAD_IMAGE_RESULTS && resultCode == RESULT_OK && data != null) {
