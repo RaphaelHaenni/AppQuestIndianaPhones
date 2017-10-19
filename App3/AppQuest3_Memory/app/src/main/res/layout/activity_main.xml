@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     tools:context="ch.appquest.indiana_phones.appquest3_memory.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <ImageButton
+        android:id="@+id/ScanBut"
+        android:layout_width="172dp"
+        android:layout_height="140dp"
+        app:srcCompat="@color/zxing_transparent"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/BtnChoose"
+        android:layout_width="116dp"
+        android:layout_height="54dp"
+        android:layout_marginLeft="134dp"
+        android:layout_marginTop="228dp"
+        android:text="Bild wählen"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

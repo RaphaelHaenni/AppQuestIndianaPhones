@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppQuest3_Memory</string>
+    <string name="title_activity_take_picture">TakePicture</string>
 </resources>
