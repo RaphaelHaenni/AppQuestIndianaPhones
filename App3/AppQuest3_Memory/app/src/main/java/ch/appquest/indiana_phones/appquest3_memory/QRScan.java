@@ -1,10 +1,9 @@
 package ch.appquest.indiana_phones.appquest3_memory;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -14,9 +13,7 @@ import com.google.zxing.integration.android.IntentResult;
  * Created by raphael.haenni on 19.10.2017.
  */
 
-public class QRScan {
-    private static final int RESULT_OK = 1;
-    MainActivity ma = new MainActivity();
+public class QRScan extends Activity {
     private String path;
     private String code;
 
@@ -37,29 +34,32 @@ public class QRScan {
     }
 
     public void takeQrCodePicture( MainActivity ma ) {
+        Log.e("TAKEQRCODEPICTURE", "takeQrCodePicture");
         IntentIntegrator integrator = new IntentIntegrator( ma );
-        //integrator.setCaptureActivity(MainActivity.class);
+        integrator.setCaptureActivity(CameraIntent.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-        integrator.setOrientationLocked(false);
+        integrator.setOrientationLocked(true);
         integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
         integrator.initiateScan();
     }
 
-
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
+            Log.e( "ONACTIVITYTESULT", "It started" );
             Bundle extras = intent.getExtras();
-            setPath( extras.getString( Intents.Scan.RESULT_BARCODE_IMAGE_PATH ) );
+            String path = extras.getString( Intents.Scan.RESULT_BARCODE_IMAGE_PATH );
+            setPath( path );
 
             // Ein Bitmap zur Darstellung erhalten wir so:
             // Bitmap bmp = BitmapFactory.decodeFile(path)
+            Log.d( "PATH", "Path: "+path );
 
-            setCode( extras.getString( Intents.Scan.RESULT ) );
-            Log.w( "CODE", "Code: "+getCode() );
+            String code = extras.getString( Intents.Scan.RESULT );
+            Log.d( "CODE", "Code: "+code );
         }
         // else continue with any other code you need in the method
     }
-
 
 }
