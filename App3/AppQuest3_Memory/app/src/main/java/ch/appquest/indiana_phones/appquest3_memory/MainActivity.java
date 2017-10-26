@@ -2,9 +2,13 @@ package ch.appquest.indiana_phones.appquest3_memory;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +21,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private List<ImageText> imgTexts;
     private TableLayout table;
     private ImageButton addButton;
+    private ImageView currentImgView;
+    private TextView currentTxtView;
 
     private TextView text1;
     private TextView text2;
@@ -49,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         imgClicker = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageView imgView = (ImageView) v;
-                imgView.setBackgroundColor(Color.RED);
-                Toast.makeText(MainActivity.this, "This is my Toast message!", Toast.LENGTH_LONG).show();
+                currentImgView = (ImageView) v;
+                takeQrCodePicture();
             }
         };
 
@@ -197,5 +207,35 @@ public class MainActivity extends AppCompatActivity {
             rString += letis[new Random().nextInt(letis.length)];
         }
         return rString;
+    }
+
+    public void takeQrCodePicture() {
+        Log.e("TAKEQRCODEPICTURE", "takeQrCodePicture");
+        IntentIntegrator integrator = new IntentIntegrator( MainActivity.this );
+        integrator.setCaptureActivity(CameraIntent.class);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setOrientationLocked(true);
+        integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
+        integrator.initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            Log.e( "ONACTIVITYTESULT", "It started" );
+            Bundle extras = intent.getExtras();
+            String path = extras.getString( Intents.Scan.RESULT_BARCODE_IMAGE_PATH );
+
+            // Ein Bitmap zur Darstellung erhalten wir so:
+            Bitmap bmp = BitmapFactory.decodeFile(path);
+
+            currentImgView.setImageBitmap(bmp);
+            Log.e( "PATH", "Path: "+path );
+
+            String code = extras.getString( Intents.Scan.RESULT );
+            Log.e( "CODE", "Code: "+code );
+        }
+        // else continue with any other code you need in the method
     }
 }
