@@ -10,9 +10,11 @@ import android.widget.TextView;
 public class ImageText {
     private ImageView img;
     private TextView text;
+    private int id;
 
-    public ImageText(ImageView imgView, TextView textView)
+    public ImageText(int id, ImageView imgView, TextView textView)
     {
+        this.id = id;
         this.img = imgView;
         this.text = textView;
     }
@@ -25,5 +27,10 @@ public class ImageText {
     public TextView getTextView()
     {
         return this.text;
+    }
+
+    public int getId()
+    {
+        return this.id;
     }
 }
