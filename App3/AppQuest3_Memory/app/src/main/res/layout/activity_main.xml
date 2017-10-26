@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tableLayout1"
+    android:id="@+id/scrollViewWhole"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:stretchColumns="*" >
+    android:scrollbars="none"
+    android:layout_weight="1">
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:stretchColumns="*" >
 
-        <!-- 2 columns -->
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="0dip" >
+                <ImageButton
+                    android:id="@+id/addImgs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_input_add" />
 
-                <ImageView
-                    android:id="@+id/imageView1_1"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_margin="5dp"
-                    android:background="@color/colorPrimary"
-                    android:scaleType="fitCenter"
-                    android:text="Column 1"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
+                <!--<TextView
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Name" />-->
 
-                <ImageView
-                    android:id="@+id/imageView1_2"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_margin="5dp"
-                    android:background="@color/colorPrimary"
-                    android:text="Column 2"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
-        </TableRow>
-
-</TableLayout>
+        </TableLayout>
+</ScrollView>
