@@ -210,32 +210,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void takeQrCodePicture() {
-        Log.e("TAKEQRCODEPICTURE", "takeQrCodePicture");
         IntentIntegrator integrator = new IntentIntegrator( MainActivity.this );
         integrator.setCaptureActivity(CameraIntent.class);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
         integrator.setOrientationLocked(true);
         integrator.addExtra(Intents.Scan.BARCODE_IMAGE_ENABLED, true);
         integrator.initiateScan();
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
-            Log.e( "ONACTIVITYTESULT", "It started" );
-            Bundle extras = intent.getExtras();
-            String path = extras.getString( Intents.Scan.RESULT_BARCODE_IMAGE_PATH );
+        if( intent != null ) {
+            Log.e( "INTENT", "It works just fine" );
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            if (scanResult != null) {
+                Log.e("ONACTIVITYTESULT", "It started");
+                Bundle extras = intent.getExtras();
+                String path = extras.getString(Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
 
-            // Ein Bitmap zur Darstellung erhalten wir so:
-            Bitmap bmp = BitmapFactory.decodeFile(path);
+                // Ein Bitmap zur Darstellung erhalten wir so:
+                Bitmap bmp = BitmapFactory.decodeFile(path);
 
-            currentImgView.setImageBitmap(bmp);
-            Log.e( "PATH", "Path: "+path );
+                currentImgView.setImageBitmap(bmp);
+                Log.e("PATH", "Path: " + path);
 
-            String code = extras.getString( Intents.Scan.RESULT );
-            Log.e( "CODE", "Code: "+code );
+                String code = extras.getString(Intents.Scan.RESULT);
+                Log.e("CODE", "Code: " + code);
+            }
+            // else continue with any other code you need in the method
+        } else {
+            return;
         }
-        // else continue with any other code you need in the method
+
     }
 }
