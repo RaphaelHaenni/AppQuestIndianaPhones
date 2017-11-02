@@ -33,9 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView currentImgView;
     private TextView currentTxtView;
 
-    /*private TextView text1;
-    private TextView text2;*/
     private List<String> words;
     private List<String[]> finalWords;
     private String wordString;
@@ -89,14 +85,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView currentTextView = (TextView) v;
 
-                /*if (text1 != null && text2 != null)
-                {
-                    text1.setBackgroundColor(Color.TRANSPARENT);
-                    text1.setTextColor(Color.BLACK);
-                    text2.setBackgroundColor(Color.TRANSPARENT);
-                    text2.setTextColor(Color.BLACK);
-                }*/
-
                 TableRow row = (TableRow)((ViewGroup) currentTextView.getParent());
                 TextView secondView = (TextView) row.getChildAt(row.getChildCount() - 1);
                 TextView firstView = (TextView) row.getChildAt(0);
@@ -117,12 +105,10 @@ public class MainActivity extends AppCompatActivity {
                     secondView.setBackgroundColor(Color.parseColor("#132189"));
                     secondView.setTextColor(Color.WHITE);
                 }
-
-                /*text1 = firstView;
-                text2 = secondView;*/
             }
         };
 
+        //creates new pair of ImageView with a TextView
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 textParam.setMargins(getDP(0),getDP(0),getDP(0),getDP(5));
 
                 for (int i = 0; i < 2; i++) {
+                    //set options for the newly generated views
                     ImageView imgView = new ImageView(MainActivity.this);
                     imgView.setLayoutParams(param);
                     imgView.setBackgroundColor(Color.parseColor("#132189"));
@@ -311,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //create Zxing barcode scanner object and set options when clicked on a ImageView
     public void takeQrCodePicture() {
         IntentIntegrator integrator = new IntentIntegrator( MainActivity.this );
         integrator.setCaptureActivity(CameraIntent.class);
@@ -321,29 +309,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Gets called automatically when integrator.initiateScan() is finished.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //Check if the capture is cancelled (back button etc.)
         if( intent != null ) {
-            Log.e( "INTENT", "It works just fine" );
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
             if (scanResult != null) {
-                Log.e("ONACTIVITYTESULT", "It started");
                 Bundle extras = intent.getExtras();
                 String path = extras.getString(Intents.Scan.RESULT_BARCODE_IMAGE_PATH);
 
-                // Ein Bitmap zur Darstellung erhalten wir so:
                 Bitmap bmp = BitmapFactory.decodeFile(path);
 
+                //set the firstly selected ImageView to the captured picture
                 currentImgView.setImageBitmap(bmp);
-                Log.e("PATH", "Path: " + path);
 
+                //sets text in the selected field to the QR code result
                 String code = extras.getString(Intents.Scan.RESULT);
-                Log.e("CODE", "Code: " + code);
+
+                currentTxtView.setText( code );
+            } else {
+                //send a message when something is wrong with the activity result
+                Toast.makeText(this, "Das Bild wurde nicht korrekt aufgenommen. Bitte erneut versuchen.", Toast.LENGTH_LONG).show();
+                return;
             }
-            // else continue with any other code you need in the method
         } else {
             return;
-
         }
     }
 }
