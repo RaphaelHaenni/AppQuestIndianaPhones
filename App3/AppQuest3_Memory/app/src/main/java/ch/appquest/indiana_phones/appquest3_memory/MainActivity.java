@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private View.OnClickListener imgClicker;
     private View.OnClickListener textSelector;
+    private int imgTextId = 0;
     private List<ImageText> imgTexts;
     private TableLayout table;
     private ImageButton addButton;
@@ -61,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentImgView = (ImageView) v;
+                for (ImageText it : imgTexts)
+                {
+                    if (it.getId() == (int)((ImageView) v).getTag())
+                    {
+                        currentTxtView = it.getTextView();
+                    }
+                }
                 takeQrCodePicture();
             }
         };
@@ -126,13 +134,15 @@ public class MainActivity extends AppCompatActivity {
                     imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     imgView.setImageResource(getResources().getIdentifier("@android:drawable/ic_menu_camera", null, getPackageName()));
                     imgView.setOnClickListener(imgClicker);
+                    imgView.setTag(imgTextId);
 
                     TextView textView = new TextView(MainActivity.this);
                     textView.setLayoutParams(textParam);
                     textView.setText("<empty>");
                     textView.setOnClickListener(textSelector);
                     textView.setBackgroundColor(Color.TRANSPARENT);
-                    imgTexts.add(new ImageText(imgView, textView));
+                    imgTexts.add(new ImageText(imgTextId, imgView, textView));
+                    imgTextId++;
                     row.addView(imgView);
                     textRow.addView(textView);
                 }
@@ -198,17 +208,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String randString()
-    {
-        String rString = "";
-        String[] letis = new String[]{"A", "B", "C", "1", "2", "3"};
-        for (int i = 0; i < 5; i++)
-        {
-            rString += letis[new Random().nextInt(letis.length)];
-        }
-        return rString;
-    }
-
     public void takeQrCodePicture() {
         IntentIntegrator integrator = new IntentIntegrator( MainActivity.this );
         integrator.setCaptureActivity(CameraIntent.class);
@@ -241,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             // else continue with any other code you need in the method
         } else {
             return;
-        }
 
+        }
     }
 }
