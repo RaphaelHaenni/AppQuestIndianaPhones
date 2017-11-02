@@ -3,9 +3,11 @@ package ch.appquest.indiana_phones.appquest3_memory;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,12 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -41,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView currentImgView;
     private TextView currentTxtView;
 
-    private TextView text1;
-    private TextView text2;
+    /*private TextView text1;
+    private TextView text2;*/
+    private List<String> words;
+    private List<String[]> finalWords;
+    private String wordString;
 
     private int getDP(int value)
     {
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         table = (TableLayout) findViewById(R.id.tableLayout1);
         addButton = (ImageButton) findViewById(R.id.addImgs);
         imgTexts = new ArrayList<ImageText>();
+        words = new ArrayList<String>();
 
         imgClicker = new View.OnClickListener() {
             @Override
@@ -78,26 +89,37 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView currentTextView = (TextView) v;
 
-                if (text1 != null && text2 != null)
+                /*if (text1 != null && text2 != null)
                 {
                     text1.setBackgroundColor(Color.TRANSPARENT);
                     text1.setTextColor(Color.BLACK);
                     text2.setBackgroundColor(Color.TRANSPARENT);
                     text2.setTextColor(Color.BLACK);
-                }
+                }*/
 
                 TableRow row = (TableRow)((ViewGroup) currentTextView.getParent());
                 TextView secondView = (TextView) row.getChildAt(row.getChildCount() - 1);
                 TextView firstView = (TextView) row.getChildAt(0);
 
-                firstView.setBackgroundColor(Color.parseColor("#132189"));
-                firstView.setTextColor(Color.WHITE);
+                if (((ColorDrawable)firstView.getBackground()).getColor() == Color.parseColor("#132189"))
+                {
+                    firstView.setBackgroundColor(Color.TRANSPARENT);
+                    firstView.setTextColor(Color.BLACK);
 
-                secondView.setBackgroundColor(Color.parseColor("#132189"));
-                secondView.setTextColor(Color.WHITE);
+                    secondView.setBackgroundColor(Color.TRANSPARENT);
+                    secondView.setTextColor(Color.BLACK);
+                }
+                else
+                {
+                    firstView.setBackgroundColor(Color.parseColor("#132189"));
+                    firstView.setTextColor(Color.WHITE);
 
-                text1 = firstView;
-                text2 = secondView;
+                    secondView.setBackgroundColor(Color.parseColor("#132189"));
+                    secondView.setTextColor(Color.WHITE);
+                }
+
+                /*text1 = firstView;
+                text2 = secondView;*/
             }
         };
 
@@ -165,6 +187,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItemAll = menu.add("Alle Auswählen");
+        menuItemAll.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                boolean click = true;
+                for (ImageText imte : imgTexts)
+                {
+                    if (click)
+                    {
+                        imte.getTextView().performClick();
+                        click = false;
+                    }
+                    else
+                    {
+                        click = true;
+                    }
+                }
+                return false;
+            }
+        });
         MenuItem menuItem = menu.add("Log");
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
@@ -180,17 +224,55 @@ public class MainActivity extends AppCompatActivity {
 
     private void write_log()
     {
-        if (text1 != null && text2 != null)
+        wordString = "";
+        words.clear();
+        finalWords = new ArrayList<String[]>();
+        int counter = 0;
+        String[] wordPair = new String[2];
+        for (ImageText imte : imgTexts)
+        {
+            if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+            {
+                String newWord = imte.getTextView().getText().toString();
+                words.add(newWord);
+                wordString += newWord;
+                counter++;
+                if (counter >= 2)
+                {
+                    wordString += "\r\n";
+                    wordPair[1] = newWord;
+                    finalWords.add(wordPair);
+                    wordPair = new String[2];
+                    counter = 0;
+                }
+                else
+                {
+                    wordString += ", ";
+                    wordPair[0] = newWord;
+                }
+            }
+        }
+
+        if (!words.isEmpty())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(true);
             builder.setTitle("Abschicken");
-            builder.setMessage("Wollen Sie die Lösung " + text1.getText() + " " + text2.getText() + " wirklich abschicken?");
+            builder.setMessage("Wollen Sie die Lösung\r\n" + wordString + " wirklich abschicken?");
             builder.setPositiveButton("Confirm",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(MainActivity.this, "OK!", Toast.LENGTH_LONG).show();
+
+                            try
+                            {
+                                log();
+                            }
+                            catch(JSONException x)
+                            {
+                                Toast.makeText(MainActivity.this, x.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     });
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -206,6 +288,27 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(MainActivity.this, "Bitte wählen Sie den Text unter den Bildern an die sie zusammen abschicken möchten.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void log() throws JSONException {
+        Intent intent = new Intent("ch.appquest.intent.LOG");
+
+        if (getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
+            Toast.makeText(this, "Logbook App not Installed", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        JSONObject json = new JSONObject();
+        json.put("task", "Memory");
+
+        json.put("solution", new JSONArray(finalWords));
+
+        // Achtung, je nach App wird etwas anderes eingetragen
+        String logmessage = json.toString();
+
+        intent.putExtra("ch.appquest.logmessage", logmessage);
+
+        startActivity(intent);
     }
 
     public void takeQrCodePicture() {
