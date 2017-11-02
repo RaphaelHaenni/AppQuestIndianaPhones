@@ -19,6 +19,11 @@ public class ImageText {
         this.text = textView;
     }
 
+    public ImageText()
+    {
+
+    }
+
     public ImageView getImgView()
     {
         return this.img;

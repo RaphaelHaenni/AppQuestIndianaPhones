@@ -1,5 +1,6 @@
 package ch.appquest.indiana_phones.appquest3_memory;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -32,8 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -47,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton addButton;
     private ImageView currentImgView;
     private TextView currentTxtView;
+    private int currentId;
 
     /*private TextView text1;
     private TextView text2;*/
@@ -78,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     if (it.getId() == (int)((ImageView) v).getTag())
                     {
                         currentTxtView = it.getTextView();
+                        currentId = it.getId();
                     }
                 }
                 takeQrCodePicture();
@@ -184,6 +195,77 @@ public class MainActivity extends AppCompatActivity {
         });
 
         addButton.performClick();
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
+        loadEverything();
+        checkForEmptyRows();
+    }
+
+    private void loadEverything()
+    {
+        try
+        {
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/appquest_images/memory";
+            File directory = new File(path);
+            File[] files = directory.listFiles();
+            for (int i = 0; i < files.length; i++)
+            {
+                Log.d("Picture", files[i].getName());
+                String absPath = files[i].getAbsolutePath();
+                String fileName = files[i].getName(); // 0_Hochschule.png
+                int id = Integer.parseInt(fileName.split("\\#:CODE:#")[0]); // 0
+                String code = fileName.split("\\#:CODE:#")[1]; // Hochschule.PNG
+                code = code.substring(0, code.length() - 4);
+                Log.d("PicData", id + " - " + code);
+                boolean hasGen = false;
+                while (hasGen == false)
+                {
+                    for (ImageText it : imgTexts)
+                    {
+                        if (it.getId() == id)
+                        {
+                            hasGen = true;
+                            it.getImgView().setImageURI(Uri.fromFile(new File(absPath)));
+                            it.getTextView().setText(code);
+                        }
+                    }
+                    if (hasGen == false)
+                    {
+                        addButton.performClick();
+                    }
+                }
+            }
+        }
+        catch (Exception x)
+        {
+            Log.d("Exceptions", x.getMessage());
+        }
+    }
+
+    private void checkForEmptyRows()
+    {
+        /*int counter = 0;
+        ImageText firstOne = new ImageText();
+        for (ImageText imte : imgTexts)
+        {
+            counter++;
+            if (counter == 1)
+            {
+                firstOne = imte;
+            }
+            else
+            {
+                if (firstOne.getTextView().getText().toString() == imte.getTextView().getText().toString())
+                {
+                    ((ViewManager)imte.getImgView().getParent()).removeView(imte.getImgView());
+                    ((ViewManager)imte.getTextView().getParent()).removeView(imte.getTextView());
+                    ((ViewManager)firstOne.getImgView().getParent()).removeView(firstOne.getImgView());
+                    ((ViewManager)firstOne.getTextView().getParent()).removeView(firstOne.getTextView());
+                }
+            }
+        }*/
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,8 +291,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        MenuItem menuItem = menu.add("Log");
-        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem menuItemDelete = menu.add("Löschen");
+        menuItemDelete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                for (ImageText imte : imgTexts)
+                {
+                    if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+                    {
+                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
+                        File file = new File(path);
+                        file.delete();
+                        ((ViewManager)imte.getImgView().getParent()).removeView(imte.getImgView());
+                        ((ViewManager)imte.getTextView().getParent()).removeView(imte.getTextView());
+                    }
+                }
+                return false;
+            }
+        });
+        MenuItem menuItemLog = menu.add("Log");
+        menuItemLog.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -335,15 +436,37 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bmp = BitmapFactory.decodeFile(path);
 
                 currentImgView.setImageBitmap(bmp);
+
                 Log.e("PATH", "Path: " + path);
 
                 String code = extras.getString(Intents.Scan.RESULT);
                 Log.e("CODE", "Code: " + code);
+
+                currentTxtView.setText(code);
+
+                SaveImage(bmp, currentId + "#:CODE:#" + code);
             }
             // else continue with any other code you need in the method
         } else {
             return;
 
+        }
+    }
+
+    private void SaveImage(Bitmap finalBitmap, String fileName) {
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(); //Environment.getDataDirectory().getAbsolutePath();
+        File myDir = new File(root + "/appquest_images/memory");
+        myDir.mkdirs();
+        String fname = fileName +".PNG";
+        File file = new File(myDir, fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
