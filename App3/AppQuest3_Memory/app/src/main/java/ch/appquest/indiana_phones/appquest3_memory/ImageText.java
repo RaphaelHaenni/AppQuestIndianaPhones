@@ -38,4 +38,6 @@ public class ImageText {
     {
         return this.id;
     }
+
+    public void changeId(int Id) {this.id = Id; }
 }

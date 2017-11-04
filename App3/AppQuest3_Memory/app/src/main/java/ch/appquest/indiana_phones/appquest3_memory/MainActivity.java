@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -99,14 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView currentTextView = (TextView) v;
-
-                /*if (text1 != null && text2 != null)
-                {
-                    text1.setBackgroundColor(Color.TRANSPARENT);
-                    text1.setTextColor(Color.BLACK);
-                    text2.setBackgroundColor(Color.TRANSPARENT);
-                    text2.setTextColor(Color.BLACK);
-                }*/
 
                 TableRow row = (TableRow)((ViewGroup) currentTextView.getParent());
                 TextView secondView = (TextView) row.getChildAt(row.getChildCount() - 1);
@@ -244,28 +237,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void clearImgTexts()
+    {
+        Iterator<ImageText> i = imgTexts.iterator();
+        while (i.hasNext())
+        {
+            ImageText imte = i.next();
+            if (imte.getId() == -1)
+            {
+                i.remove();
+            }
+        }
+        if (imgTexts.size() == 0)
+        {
+            imgTextId = 0;
+            addButton.performClick();
+        }
+    }
+
     private void checkForEmptyRows()
     {
-        /*int counter = 0;
-        ImageText firstOne = new ImageText();
-        for (ImageText imte : imgTexts)
+        Iterator<ImageText> i = imgTexts.iterator();
+        while (i.hasNext())
         {
-            counter++;
-            if (counter == 1)
+            ImageText imte = i.next();
+            ImageText imteN = i.next();
+            if (imte.getTextView().getText() == "<empty>" && imteN.getTextView().getText() == "<empty>")
             {
-                firstOne = imte;
+                Log.d("TAGS", imte.getTextView().getText() + " " + imteN.getTextView().getText());
+                TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
+                TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
+                table.removeView(imgRow);
+                table.removeView(textRow);
+                imte.changeId(-1);
+                imteN.changeId(-1);
             }
-            else
-            {
-                if (firstOne.getTextView().getText().toString() == imte.getTextView().getText().toString())
-                {
-                    ((ViewManager)imte.getImgView().getParent()).removeView(imte.getImgView());
-                    ((ViewManager)imte.getTextView().getParent()).removeView(imte.getTextView());
-                    ((ViewManager)firstOne.getImgView().getParent()).removeView(firstOne.getImgView());
-                    ((ViewManager)firstOne.getTextView().getParent()).removeView(firstOne.getTextView());
-                }
-            }
-        }*/
+        }
+        clearImgTexts();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -296,17 +304,27 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                for (ImageText imte : imgTexts)
+                Iterator<ImageText> i = imgTexts.iterator();
+                while (i.hasNext())
                 {
-                    if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+                    ImageText imte = i.next();
+                    if (imte.getId() != -1)
                     {
-                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
-                        File file = new File(path);
-                        file.delete();
-                        ((ViewManager)imte.getImgView().getParent()).removeView(imte.getImgView());
-                        ((ViewManager)imte.getTextView().getParent()).removeView(imte.getTextView());
+                        if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+                        {
+
+                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
+                            File file = new File(path);
+                            file.delete();
+                            imte.changeId(-1);
+                            TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
+                            TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
+                            table.removeView(imgRow);
+                            table.removeView(textRow);
+                        }
                     }
                 }
+                clearImgTexts();
                 return false;
             }
         });
