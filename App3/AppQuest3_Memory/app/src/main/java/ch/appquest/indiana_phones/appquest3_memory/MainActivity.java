@@ -10,10 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -39,10 +39,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -300,27 +297,47 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Iterator<ImageText> i = imgTexts.iterator();
-                while (i.hasNext())
-                {
-                    ImageText imte = i.next();
-                    if (imte.getId() != -1)
-                    {
-                        if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
-                        {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Abschicken");
+                builder.setMessage("Wollen Sie die Blau markierten Lösungen wirklich löschen? Vorsicht: Dieser Schritt kann nicht mehr rückgängig gemacht werden!");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
-                            File file = new File(path);
-                            file.delete();
-                            imte.changeId(-1);
-                            TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
-                            TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
-                            table.removeView(imgRow);
-                            table.removeView(textRow);
-                        }
+                                Iterator<ImageText> i = imgTexts.iterator();
+                                while (i.hasNext())
+                                {
+                                    ImageText imte = i.next();
+                                    if (imte.getId() != -1)
+                                    {
+                                        if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+                                        {
+
+                                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
+                                            File file = new File(path);
+                                            file.delete();
+                                            imte.changeId(-1);
+                                            TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
+                                            TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
+                                            table.removeView(imgRow);
+                                            table.removeView(textRow);
+                                        }
+                                    }
+                                }
+                                clearImgTexts();
+
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                     }
-                }
-                clearImgTexts();
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return false;
             }
         });
@@ -463,6 +480,8 @@ public class MainActivity extends AppCompatActivity {
                 SaveImage(bmp, currentId + "#:CODE:#" + code);
             }
         } else {
+            //send a message when something is wrong with the activity result
+            Toast.makeText(this, "Das Bild wurde nicht korrekt aufgenommen. Bitte erneut versuchen.", Toast.LENGTH_LONG).show();
             return;
         }
     }
