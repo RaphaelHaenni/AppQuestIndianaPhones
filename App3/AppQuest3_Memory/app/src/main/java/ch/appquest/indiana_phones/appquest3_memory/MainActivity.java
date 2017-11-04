@@ -1,5 +1,6 @@
 package ch.appquest.indiana_phones.appquest3_memory;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -32,7 +37,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton addButton;
     private ImageView currentImgView;
     private TextView currentTxtView;
+    private int currentId;
 
     private List<String> words;
     private List<String[]> finalWords;
@@ -74,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     if (it.getId() == (int)((ImageView) v).getTag())
                     {
                         currentTxtView = it.getTextView();
+                        currentId = it.getId();
                     }
                 }
                 takeQrCodePicture();
@@ -171,6 +184,92 @@ public class MainActivity extends AppCompatActivity {
         });
 
         addButton.performClick();
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
+        loadEverything();
+        checkForEmptyRows();
+    }
+
+    private void loadEverything()
+    {
+        try
+        {
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/appquest_images/memory";
+            File directory = new File(path);
+            File[] files = directory.listFiles();
+            for (int i = 0; i < files.length; i++)
+            {
+                Log.d("Picture", files[i].getName());
+                String absPath = files[i].getAbsolutePath();
+                String fileName = files[i].getName(); // 0_Hochschule.png
+                int id = Integer.parseInt(fileName.split("\\#:CODE:#")[0]); // 0
+                String code = fileName.split("\\#:CODE:#")[1]; // Hochschule.PNG
+                code = code.substring(0, code.length() - 4);
+                Log.d("PicData", id + " - " + code);
+                boolean hasGen = false;
+                while (hasGen == false)
+                {
+                    for (ImageText it : imgTexts)
+                    {
+                        if (it.getId() == id)
+                        {
+                            hasGen = true;
+                            it.getImgView().setImageURI(Uri.fromFile(new File(absPath)));
+                            it.getTextView().setText(code);
+                        }
+                    }
+                    if (hasGen == false)
+                    {
+                        addButton.performClick();
+                    }
+                }
+            }
+        }
+        catch (Exception x)
+        {
+            Log.d("Exceptions", x.getMessage());
+        }
+    }
+
+    private void clearImgTexts()
+    {
+        Iterator<ImageText> i = imgTexts.iterator();
+        while (i.hasNext())
+        {
+            ImageText imte = i.next();
+            if (imte.getId() == -1)
+            {
+                i.remove();
+            }
+        }
+        if (imgTexts.size() == 0)
+        {
+            imgTextId = 0;
+            addButton.performClick();
+        }
+    }
+
+    private void checkForEmptyRows()
+    {
+        Iterator<ImageText> i = imgTexts.iterator();
+        while (i.hasNext())
+        {
+            ImageText imte = i.next();
+            ImageText imteN = i.next();
+            if (imte.getTextView().getText() == "<empty>" && imteN.getTextView().getText() == "<empty>")
+            {
+                Log.d("TAGS", imte.getTextView().getText() + " " + imteN.getTextView().getText());
+                TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
+                TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
+                table.removeView(imgRow);
+                table.removeView(textRow);
+                imte.changeId(-1);
+                imteN.changeId(-1);
+            }
+        }
+        clearImgTexts();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,8 +295,37 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        MenuItem menuItem = menu.add("Log");
-        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem menuItemDelete = menu.add("Löschen");
+        menuItemDelete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Iterator<ImageText> i = imgTexts.iterator();
+                while (i.hasNext())
+                {
+                    ImageText imte = i.next();
+                    if (imte.getId() != -1)
+                    {
+                        if (((ColorDrawable)imte.getTextView().getBackground()).getColor() == Color.parseColor("#132189"))
+                        {
+
+                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/appquest_images/memory/" + imte.getId() + "#:CODE:#" + imte.getTextView().getText() + ".PNG";
+                            File file = new File(path);
+                            file.delete();
+                            imte.changeId(-1);
+                            TableRow imgRow = (TableRow)((ViewManager)imte.getImgView().getParent());
+                            TableRow textRow = (TableRow)((ViewManager)imte.getTextView().getParent());
+                            table.removeView(imgRow);
+                            table.removeView(textRow);
+                        }
+                    }
+                }
+                clearImgTexts();
+                return false;
+            }
+        });
+        MenuItem menuItemLog = menu.add("Log");
+        menuItemLog.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -324,17 +452,35 @@ public class MainActivity extends AppCompatActivity {
                 //set the firstly selected ImageView to the captured picture
                 currentImgView.setImageBitmap(bmp);
 
+                Log.e("PATH", "Path: " + path);
+
                 //sets text in the selected field to the QR code result
                 String code = extras.getString(Intents.Scan.RESULT);
+                Log.e("CODE", "Code: " + code);
 
-                currentTxtView.setText( code );
-            } else {
-                //send a message when something is wrong with the activity result
-                Toast.makeText(this, "Das Bild wurde nicht korrekt aufgenommen. Bitte erneut versuchen.", Toast.LENGTH_LONG).show();
-                return;
+                currentTxtView.setText(code);
+
+                SaveImage(bmp, currentId + "#:CODE:#" + code);
             }
         } else {
             return;
+        }
+    }
+
+    private void SaveImage(Bitmap finalBitmap, String fileName) {
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath(); //Environment.getDataDirectory().getAbsolutePath();
+        File myDir = new File(root + "/appquest_images/memory");
+        myDir.mkdirs();
+        String fname = fileName +".PNG";
+        File file = new File(myDir, fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

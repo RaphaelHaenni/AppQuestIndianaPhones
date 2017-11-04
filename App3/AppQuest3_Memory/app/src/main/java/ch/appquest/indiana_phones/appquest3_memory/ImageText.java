@@ -19,6 +19,11 @@ public class ImageText {
         this.text = textView;
     }
 
+    public ImageText()
+    {
+
+    }
+
     public ImageView getImgView()
     {
         return this.img;
@@ -33,4 +38,6 @@ public class ImageText {
     {
         return this.id;
     }
+
+    public void changeId(int Id) {this.id = Id; }
 }
