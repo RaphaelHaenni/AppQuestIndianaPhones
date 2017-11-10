@@ -1,19 +1,19 @@
-#Fri Nov 10 13:59:16 CET 2017
+#Fri Nov 10 16:58:16 CET 2017
 renamed.5=classes6.dex
 renamed.4=classes5.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.5=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
-base.4=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
-base.3=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
-base.2=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
-base.1=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
-base.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
-file.5=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12\\classes.dex
-file.4=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15\\classes.dex
-file.3=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13\\classes.dex
-file.2=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16\\classes.dex
-file.1=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14\\classes.dex
-file.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17\\classes.dex
+base.5=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\36
+base.4=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\34
+base.3=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\35
+base.2=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\32
+base.1=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\33
+base.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\31
+file.5=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\36\\classes.dex
+file.4=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\34\\classes.dex
+file.3=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\35\\classes.dex
+file.2=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\32\\classes.dex
+file.1=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\33\\classes.dex
+file.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\31\\classes.dex

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="arm64-v8a,armeabi-v7a,armeabi"
+    abi="x86"
     api-level="24"
     build-mode="FULL"
     density="xxhdpi"
     format="10"
     plugin-version="3.0.0"
-    timestamp="1510318751408"
+    timestamp="1510329467703"
     token="3935909685375713855"
     verifier="FULL_BUILD_REQUESTED" >
 
@@ -18,10 +18,10 @@
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="154" />
+        duration="0" />
     <task
         name="verifier"
-        duration="280" />
+        duration="0" />
 
     <artifact
         location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
@@ -62,7 +62,7 @@
 
     <build
         build-mode="FULL"
-        timestamp="1510318751408"
+        timestamp="1510329467703"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
