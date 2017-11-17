@@ -300,6 +300,10 @@
         "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\910f402dde082b94ca813e6e06eb7c8c\\res\\drawable-xxxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
     },
     {
+        "merged": "D:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\res\\merged\\debug\\drawable_mypos.png.flat",
+        "source": "D:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\src\\main\\res\\drawable\\mypos.png"
+    },
+    {
         "merged": "D:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\910f402dde082b94ca813e6e06eb7c8c\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
     },
