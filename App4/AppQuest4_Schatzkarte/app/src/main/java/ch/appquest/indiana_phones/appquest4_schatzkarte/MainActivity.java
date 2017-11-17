@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,6 +34,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -150,7 +152,9 @@ public class MainActivity extends AppCompatActivity {
         {
             int microLat = (int)(point.getPoint().getLatitude() * 1000000);
             int microLong = (int)(point.getPoint().getLongitude() * 1000000);
+            pList.add(new Point(microLat, microLong));
         }
+        Point[] pArray = pList.toArray(new Point[pList.size()]);
     }
 
     private Location getLastKnownLocation() {

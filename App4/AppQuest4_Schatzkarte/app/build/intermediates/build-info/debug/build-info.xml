@@ -5,24 +5,24 @@
     build-mode="COLD"
     density="xxhdpi"
     format="10"
-    ir-eligibility="METHOD_ADDED"
+    ir-eligibility="COMPATIBLE"
     plugin-version="3.0.0"
-    timestamp="1510924163283"
+    timestamp="1510925106190"
     token="3935909685375713855"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="97" />
+        duration="91" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="17" />
+        duration="11" />
     <task
         name="verifier"
-        duration="4" />
+        duration="1" />
 
     <artifact
         location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
@@ -71,8 +71,8 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="METHOD_ADDED"
-        timestamp="1510924163283"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1510925106190"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
