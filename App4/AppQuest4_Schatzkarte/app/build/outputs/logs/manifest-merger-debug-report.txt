@@ -83,18 +83,18 @@ category#android.intent.category.LAUNCHER
 ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:16:17-77
 	android:name
 		ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:16:27-74
-uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:20:5-80
-MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:17:5-81
-MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:17:5-81
-	android:name
-		ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:20:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:21:5-78
+ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:20:5-78
 MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:16:5-79
 MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:16:5-79
 	android:name
-		ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:21:22-76
+		ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:20:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:21:5-80
+MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:17:5-81
+MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:17:5-81
+	android:name
+		ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:21:22-78
 uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\AndroidManifest.xml:22:5-76
 MERGED from [org.osmdroid:osmdroid-android:5.6.5] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\osmdroid-android-5.6.5.aar\df99d4747173ed138c9bd15d283ea797\AndroidManifest.xml:18:5-76

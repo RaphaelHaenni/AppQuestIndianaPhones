@@ -1,17 +1,26 @@
 package ch.appquest.indiana_phones.appquest4_schatzkarte;
 
+import android.Manifest;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +35,7 @@ import org.json.JSONObject;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -34,6 +44,7 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -42,14 +53,22 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private MyLocationNewOverlay mLocationOverlay;
     private MapView map;
     private CompassOverlay mCompassOverlay;
     LocationManager mLocationManager;
     Context ctx;
+    boolean followMe = true;
+    boolean refollow = true;
+
+    boolean hasShownError = false;
+
+    private LocationManager locationManager;
 
     ArrayList<OverlayItem> points;
     ItemizedOverlayWithFocus<OverlayItem> pointOverlay;
@@ -60,6 +79,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        int pid = android.os.Process.myPid();
+        android.os.Process.killProcess(pid);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         ctx = getApplicationContext();
         //important! set your user agent to prevent getting banned from the osm servers
@@ -69,30 +112,20 @@ public class MainActivity extends AppCompatActivity {
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
+        // Schatzkarten Theme
+        final ColorMatrix matrixA = new ColorMatrix();
+        // making image B&W
+        matrixA.setSaturation(0);
+        final ColorMatrix matrixB = new ColorMatrix();
+        // applying scales for RGB color values
+        matrixB.setScale(1f, .95f, .82f, 1.0f);
+        matrixA.setConcat(matrixB, matrixA);
+        final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrixA);
+        map.getOverlayManager().getTilesOverlay().setColorFilter(filter);
+
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
-
-        Location location;
-        double longitude;
-        double latitude;
-        try {
-            location = getLastKnownLocation();
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            IMapController mapController = map.getController();
-            mapController.setZoom(20);
-            GeoPoint startPoint = new GeoPoint(latitude, longitude);
-            mapController.setCenter(startPoint);
-        } catch (SecurityException e) {} catch (Exception x) {}
-
-
-        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this),map);
-        this.mLocationOverlay.enableMyLocation();
-        BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.mypos);
-        Bitmap bmp = RotateBitmap(drawable.getBitmap(), 180);
-        this.mLocationOverlay.setDirectionArrow(bmp, bmp);
-        this.mLocationOverlay.setPersonIcon(bmp);
-        map.getOverlays().add(this.mLocationOverlay);
+        map.setMaxZoomLevel(21);
 
         this.mCompassOverlay = new CompassOverlay(this, new InternalCompassOrientationProvider(this), map);
         this.mCompassOverlay.enableCompass();
@@ -161,6 +194,19 @@ public class MainActivity extends AppCompatActivity {
 
         };
         map.getOverlays().add(touchOverlay);
+
+        try{
+            Location loc = getLastKnownLocation();
+
+            IMapController mapController = map.getController();
+            mapController.setZoom(19);
+            GeoPoint startPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+            mapController.setCenter(startPoint);
+        }
+        catch (Exception x){
+        }
+
+        startTimer();
     }
 
     private void saveAllPoints()
@@ -174,6 +220,86 @@ public class MainActivity extends AppCompatActivity {
         }
         Point[] pArray = pList.toArray(new Point[pList.size()]);
         new Position(pArray);
+    }
+
+    private Timer mTimer1;
+    private TimerTask mTt1;
+    private Handler mTimerHandler = new Handler();
+
+    private void stopTimer(){
+        if(mTimer1 != null){
+            mTimer1.cancel();
+            mTimer1.purge();
+        }
+    }
+
+    ItemizedOverlayWithFocus<OverlayItem> myPointOverlay;
+    private void startTimer(){
+        mTimer1 = new Timer();
+        mTt1 = new TimerTask() {
+            public void run() {
+                mTimerHandler.post(new Runnable() {
+                    public void run(){
+                        //TODO
+                        if (followMe)
+                        {
+                            try
+                            {
+                                double preMapLat = map.getMapCenter().getLatitude();
+                                double preMapLong = map.getMapCenter().getLongitude();
+
+                                Location loc = getLastKnownLocation();
+
+                                IMapController mapController = map.getController();
+                                mapController.setZoom(map.getZoomLevel());
+                                GeoPoint startPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+                                mapController.setCenter(startPoint);
+
+                                //your items
+                                ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+                                OverlayItem item = new OverlayItem("You", "Your Location", new GeoPoint(loc.getLatitude(),loc.getLongitude()));
+                                item.setMarker(getResources().getDrawable(R.drawable.mypos));
+                                items.add(item);
+
+                                map.getOverlays().remove(myPointOverlay);
+                                myPointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                                    @Override
+                                    public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onItemLongPress(int index, OverlayItem item) {
+                                        return false;
+                                    }
+                                });
+
+                                map.getOverlays().add(myPointOverlay);
+
+                                if ((preMapLat != map.getMapCenter().getLatitude() || preMapLong != map.getMapCenter().getLongitude()) && !refollow)
+                                {
+                                    followMe = false;
+                                    refollow = true;
+                                }
+                                refollow = false;
+                            }catch(Exception x){
+                                if (!hasShownError)
+                                {
+                                    Toast.makeText(ctx, "Bitte aktivieren sie das GPS!",Toast.LENGTH_SHORT).show();
+                                    hasShownError = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            map.getOverlays().remove(myPointOverlay);
+                        }
+                    }
+                });
+            }
+        };
+
+        mTimer1.schedule(mTt1, 1, 100);
     }
 
     private Location getLastKnownLocation() {
@@ -197,12 +323,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItemLog = menu.add("Follow Me");
+        MenuItem menuItemLog = menu.add("Follow Me ON/OF");
         menuItemLog.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                mLocationOverlay.enableFollowLocation();
+                if (followMe)
+                {
+                    followMe = false;
+                    refollow = true;
+                }
+                else
+                {
+                    followMe = true;
+                    refollow = true;
+                }
                 return false;
             }
         });
@@ -212,13 +347,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                map.getOverlays().remove(pointOverlay);
-                points.add(new OverlayItem("Latitude: " + getLastKnownLocation().getLatitude(), "Longitude " + getLastKnownLocation().getLongitude(), new GeoPoint(getLastKnownLocation().getLatitude(),getLastKnownLocation().getLongitude())));
-                pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
-                pointOverlay.setFocusItemsOnTap(true);
-                map.getOverlays().add(pointOverlay);
-                Toast.makeText(ctx, "Point Added",Toast.LENGTH_SHORT).show();
-                saveAllPoints();
+                try{
+                    map.getOverlays().remove(pointOverlay);
+                    points.add(new OverlayItem("Latitude: " + getLastKnownLocation().getLatitude(), "Longitude " + getLastKnownLocation().getLongitude(), new GeoPoint(getLastKnownLocation().getLatitude(),getLastKnownLocation().getLongitude())));
+                    pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
+                    pointOverlay.setFocusItemsOnTap(true);
+                    map.getOverlays().add(pointOverlay);
+                    Toast.makeText(ctx, "Point Added",Toast.LENGTH_SHORT).show();
+                    saveAllPoints();
+                }
+                catch (Exception x){
+                    Toast.makeText(ctx, "Bitte aktivieren sie das GPS!",Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -307,4 +447,23 @@ public class MainActivity extends AppCompatActivity {
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }

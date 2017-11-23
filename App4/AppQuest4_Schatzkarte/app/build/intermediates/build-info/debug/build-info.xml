@@ -2,39 +2,68 @@
 <instant-run
     abi="arm64-v8a,armeabi-v7a,armeabi"
     api-level="24"
-    build-mode="COLD"
+    build-mode="FULL"
     density="xxhdpi"
     format="10"
-    ir-eligibility="COMPATIBLE"
     plugin-version="3.0.0"
-    timestamp="1510932221862"
+    timestamp="1511450741347"
     token="3935909685375713855"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="86" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="11" />
+        duration="0" />
     <task
         name="verifier"
-        duration="2" />
+        duration="0" />
 
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+        type="SPLIT" />
     <artifact
         location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
         type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\outputs\apk\debug\app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1510927217612"
+        timestamp="1511450741347"
         verifier="FULL_BUILD_REQUESTED" >
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
@@ -49,6 +78,9 @@
             type="SPLIT" />
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
@@ -68,44 +100,6 @@
         <artifact
             location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\outputs\apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="FIELD_REMOVED"
-        timestamp="1510929924299"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        timestamp="1510930098820"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\outputs\apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1510932221862"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
     </build>
 
 </instant-run>
