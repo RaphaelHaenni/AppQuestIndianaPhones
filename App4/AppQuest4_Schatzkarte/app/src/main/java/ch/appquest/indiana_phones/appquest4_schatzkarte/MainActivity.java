@@ -63,10 +63,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private CompassOverlay mCompassOverlay;
     LocationManager mLocationManager;
     Context ctx;
-    boolean followMe = true;
-    boolean refollow = true;
-
-    boolean hasShownError = false;
 
     private LocationManager locationManager;
 
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 map.getOverlays().remove(pointOverlay);
                 points.remove(item);
                 pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
-                pointOverlay.setFocusItemsOnTap(true);
+                pointOverlay.setFocusItemsOnTap(false);
                 map.getOverlays().add(pointOverlay);
                 Toast.makeText(ctx, "Point Removed",Toast.LENGTH_SHORT).show();
                 saveAllPoints();
@@ -161,12 +157,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         {
             double microLat = (double)((double)p.x / (double)1000000);
             double microLong = (double)((double)p.y / (double)1000000);
-            //Log.d("LATLONG", microLat + " - " + microLong);
             points.add(new OverlayItem("Latitude: " + microLat, "Longitude " + microLong, new GeoPoint(microLat,microLong)));
         }
 
         pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
-        pointOverlay.setFocusItemsOnTap(true);
+        pointOverlay.setFocusItemsOnTap(false);
 
         map.getOverlays().add(pointOverlay);
 
@@ -183,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 map.getOverlays().remove(pointOverlay);
                 points.add(new OverlayItem("Latitude: " + p.getLatitude(), "Longitude " + p.getLongitude(), new GeoPoint(p.getLatitude(),p.getLongitude())));
                 pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
-                pointOverlay.setFocusItemsOnTap(true);
+                pointOverlay.setFocusItemsOnTap(false);
                 map.getOverlays().add(pointOverlay);
                 Toast.makeText(ctx, "Point Added",Toast.LENGTH_SHORT).show();
                 saveAllPoints();
@@ -206,7 +201,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         catch (Exception x){
         }
 
-        startTimer();
+        mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
+        BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.mypos);
+        Bitmap bmp = RotateBitmap(drawable.getBitmap(), 180);
+        this.mLocationOverlay.setDirectionArrow(bmp, bmp);
+        this.mLocationOverlay.setPersonIcon(bmp);
+        mLocationOverlay.enableMyLocation();
+        mLocationOverlay.setDrawAccuracyEnabled(false);
+        map.getOverlays().add(this.mLocationOverlay);
+        mLocationOverlay.enableFollowLocation();
     }
 
     private void saveAllPoints()
@@ -220,86 +223,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         Point[] pArray = pList.toArray(new Point[pList.size()]);
         new Position(pArray);
-    }
-
-    private Timer mTimer1;
-    private TimerTask mTt1;
-    private Handler mTimerHandler = new Handler();
-
-    private void stopTimer(){
-        if(mTimer1 != null){
-            mTimer1.cancel();
-            mTimer1.purge();
-        }
-    }
-
-    ItemizedOverlayWithFocus<OverlayItem> myPointOverlay;
-    private void startTimer(){
-        mTimer1 = new Timer();
-        mTt1 = new TimerTask() {
-            public void run() {
-                mTimerHandler.post(new Runnable() {
-                    public void run(){
-                        //TODO
-                        if (followMe)
-                        {
-                            try
-                            {
-                                double preMapLat = map.getMapCenter().getLatitude();
-                                double preMapLong = map.getMapCenter().getLongitude();
-
-                                Location loc = getLastKnownLocation();
-
-                                IMapController mapController = map.getController();
-                                mapController.setZoom(map.getZoomLevel());
-                                GeoPoint startPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
-                                mapController.setCenter(startPoint);
-
-                                //your items
-                                ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-                                OverlayItem item = new OverlayItem("You", "Your Location", new GeoPoint(loc.getLatitude(),loc.getLongitude()));
-                                item.setMarker(getResources().getDrawable(R.drawable.mypos));
-                                items.add(item);
-
-                                map.getOverlays().remove(myPointOverlay);
-                                myPointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                                    @Override
-                                    public boolean onItemSingleTapUp(int index, OverlayItem item) {
-                                        return false;
-                                    }
-
-                                    @Override
-                                    public boolean onItemLongPress(int index, OverlayItem item) {
-                                        return false;
-                                    }
-                                });
-
-                                map.getOverlays().add(myPointOverlay);
-
-                                if ((preMapLat != map.getMapCenter().getLatitude() || preMapLong != map.getMapCenter().getLongitude()) && !refollow)
-                                {
-                                    followMe = false;
-                                    refollow = true;
-                                }
-                                refollow = false;
-                            }catch(Exception x){
-                                if (!hasShownError)
-                                {
-                                    Toast.makeText(ctx, "Bitte aktivieren sie das GPS!",Toast.LENGTH_SHORT).show();
-                                    hasShownError = true;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            map.getOverlays().remove(myPointOverlay);
-                        }
-                    }
-                });
-            }
-        };
-
-        mTimer1.schedule(mTt1, 1, 100);
     }
 
     private Location getLastKnownLocation() {
@@ -323,21 +246,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItemLog = menu.add("Follow Me ON/OF");
+        MenuItem menuItemLog = menu.add("Follow Me");
         menuItemLog.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (followMe)
-                {
-                    followMe = false;
-                    refollow = true;
-                }
-                else
-                {
-                    followMe = true;
-                    refollow = true;
-                }
+                mLocationOverlay.enableFollowLocation();
                 return false;
             }
         });
@@ -351,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     map.getOverlays().remove(pointOverlay);
                     points.add(new OverlayItem("Latitude: " + getLastKnownLocation().getLatitude(), "Longitude " + getLastKnownLocation().getLongitude(), new GeoPoint(getLastKnownLocation().getLatitude(),getLastKnownLocation().getLongitude())));
                     pointOverlay = new ItemizedOverlayWithFocus<OverlayItem>(ctx, points, pointFunctions);
-                    pointOverlay.setFocusItemsOnTap(true);
+                    pointOverlay.setFocusItemsOnTap(false);
                     map.getOverlays().add(pointOverlay);
                     Toast.makeText(ctx, "Point Added",Toast.LENGTH_SHORT).show();
                     saveAllPoints();

@@ -1,4 +1,4 @@
-#Fri Nov 10 16:58:16 CET 2017
-base.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\29
+#Sat Nov 25 17:51:39 CET 2017
+base.0=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\10
 renamed.0=classes.dex
-file.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\29\\classes.dex
+file.0=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\10\\classes.dex

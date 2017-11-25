@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "D:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\a88eb292ddc616d0663f50848cf6b243\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\simon\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\a1380993ca639a0ea3e9281be76c5863\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\910f402dde082b94ca813e6e06eb7c8c\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\simon\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\8ae36243f59d0d763e191bc48a7e852f\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
