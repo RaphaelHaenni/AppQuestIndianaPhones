@@ -16,7 +16,7 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:columnCount="13"
-        android:rowCount="14">
+        android:rowCount="15">
 
         <!--<ImageView
             android:layout_width="100px"
