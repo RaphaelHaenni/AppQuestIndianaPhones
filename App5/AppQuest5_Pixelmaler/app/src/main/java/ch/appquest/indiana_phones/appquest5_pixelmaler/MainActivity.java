@@ -1,5 +1,6 @@
 package ch.appquest.indiana_phones.appquest5_pixelmaler;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.media.Image;
@@ -10,6 +11,7 @@ import android.view.Display;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
@@ -17,19 +19,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Color color;
+    public static String color;
     private ImageView[][] rpixels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        color = new Color();
-        color.alpha(255);
-        color.red(255);
-        color.green(0);
-        color.blue(0);
 
+        Intent inti = new Intent(MainActivity.this, ColorPicker.class);
+        startActivity(inti);
 
         rpixels = new ImageView[13][13];
 
@@ -65,13 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.setBackgroundColor(Color.parseColor("#FFD7D7D7"));
-                        view.setTag("#FFD7D7D7");
+                        view.setBackgroundColor(Color.parseColor(color));
+                        view.setTag(color);
                     }
                 });
                 rpixels[x][y] = view;
                 grid.addView(view);
             }
         }
+
+        //Button btn = new Button();
     }
 }

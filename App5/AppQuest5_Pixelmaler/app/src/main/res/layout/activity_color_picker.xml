@@ -6,4 +6,136 @@
     android:layout_height="match_parent"
     tools:context="ch.appquest.indiana_phones.appquest5_pixelmaler.ColorPicker">
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:onClick="chooseColour"
+        android:text="Choose a colour to draw with."
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnRed"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFD90505"
+        android:tag="#FFD90505"
+        android:text="Red"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#fff"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+
+    <Button
+        android:id="@+id/btnGreen"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FF13B717"
+        android:tag="#FF13B717"
+        android:text="Green"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#fff"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRed" />
+
+    <Button
+        android:id="@+id/btnBlue"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FF1364B7"
+        android:tag="#FF1364B7"
+        android:text="Blue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#fff"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGreen" />
+
+    <Button
+        android:id="@+id/btnYellow"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFEA00"
+        android:tag="#FFFFEA00"
+        android:text="Yellow"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#000"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBlue" />
+
+    <Button
+        android:id="@+id/btnBlack"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#ff000000"
+        android:tag="#FF000000"
+        android:text="Black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#FFF"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnYellow" />
+
+    <Button
+        android:id="@+id/btnGrey"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFB7B7B7"
+        android:tag="#FFB7B7B7"
+        android:text="Grey"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#000"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBlack" />
+
+    <Button
+        android:id="@+id/btnWhite"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFFFF"
+        android:tag="#FFFFFFFF"
+        android:text="White"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#000"
+        android:onClick="chooseColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGrey" />
 </android.support.constraint.ConstraintLayout>
