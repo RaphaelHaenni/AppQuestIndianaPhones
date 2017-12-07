@@ -26,9 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent inti = new Intent(MainActivity.this, ColorPicker.class);
-        startActivity(inti);
+        color = "#FFFFFFFF";
 
         rpixels = new ImageView[13][13];
 
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 view.setAdjustViewBounds(true);
                 view.setBackgroundColor(Color.WHITE);
+                view.setTag(color);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -73,6 +72,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //Button btn = new Button();
+        GridLayout.LayoutParams buttonParams = new GridLayout.LayoutParams();
+        buttonParams.width = width/3;
+        buttonParams.columnSpec = GridLayout.spec(0, 13);
+        buttonParams.rowSpec = GridLayout.spec(13);
+
+        Button btn = new Button(this);
+        btn.setText("Pick Color");
+        btn.setLayoutParams(buttonParams);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inti = new Intent(MainActivity.this, ColorPicker.class);
+                startActivity(inti);
+            }
+        });
+        grid.addView(btn);
     }
 }
