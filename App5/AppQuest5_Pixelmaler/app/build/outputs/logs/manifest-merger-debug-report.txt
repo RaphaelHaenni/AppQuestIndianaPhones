@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
+ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\efc510efa15a72e47b56c622946f61ba\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\66765f6be45d4e558581c0c16a0369ae\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\6c8a8446652e0523cf78737819fa3fef\AndroidManifest.xml:17:1-28:12
@@ -15,20 +15,20 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\simon.chiar
 MERGED from [com.android.support:support-core-ui:26.1.0] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.1.0.aar\59bd35d96cbfc5353439edbf27c91e29\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\45bff62b89647e8cb9cb42c2ca82d313\AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\simon.chiarot\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\e8c39ddf2e84d8a563882c6d9fcdaa5e\AndroidManifest.xml:17:1-30:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
-INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
 	package
 		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:3:5-62
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
-		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
+		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
-		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-22:12
+		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:1-23:12
 		INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:2:11-69
@@ -86,6 +86,14 @@ activity#ch.appquest.indiana_phones.appquest5_pixelmaler.ColorPicker
 ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:19:9-58
 	android:name
 		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:19:19-46
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:21:5-81
+	android:name
+		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:21:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:22:5-80
+	android:name
+		ADDED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml:22:22-77
 uses-sdk
 INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\08_APPQUEST\App5\AppQuest5_Pixelmaler\app\src\main\AndroidManifest.xml

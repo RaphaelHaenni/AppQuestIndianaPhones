@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\GIT\AppQuest\App4\AppQuest4_Schatzkarte\app\src\main\assets"/><source path="D:\GIT\AppQuest\App4\AppQuest4_Schatzkarte\app\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\GIT\AppQuest\App4\AppQuest4_Schatzkarte\app\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\main\assets"/><source path="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\08_APPQUEST\App4\AppQuest4_Schatzkarte\app\src\debug\assets"/></dataSet></merger>

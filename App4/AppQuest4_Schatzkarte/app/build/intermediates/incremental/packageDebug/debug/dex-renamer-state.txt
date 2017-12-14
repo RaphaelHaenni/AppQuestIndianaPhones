@@ -1,19 +1,4 @@
-#Sat Nov 25 18:37:41 CET 2017
-renamed.5=classes6.dex
-renamed.4=classes5.dex
-renamed.3=classes4.dex
-renamed.2=classes3.dex
-renamed.1=classes2.dex
+#Thu Dec 14 12:55:23 CET 2017
+base.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
 renamed.0=classes.dex
-base.5=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
-base.4=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
-base.3=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
-base.2=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
-base.1=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
-base.0=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
-file.5=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13\\classes.dex
-file.4=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16\\classes.dex
-file.3=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14\\classes.dex
-file.2=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17\\classes.dex
-file.1=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12\\classes.dex
-file.0=D\:\\GIT\\AppQuest\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15\\classes.dex
+file.0=D\:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19\\classes.dex

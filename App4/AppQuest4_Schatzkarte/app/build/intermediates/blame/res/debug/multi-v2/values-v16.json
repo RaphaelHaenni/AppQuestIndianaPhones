@@ -33,6 +33,40 @@
                     }
                 }
             ]
+        },
+        {
+            "outputFile": "D:\\08_APPQUEST\\App4\\AppQuest4_Schatzkarte\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\782138bd5df570352074d716d45d4d62\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\simon.chiarot\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\c41153e1f6cd368d2e5e8ca8615e48b1\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
         }
     ]
 }
